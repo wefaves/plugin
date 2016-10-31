@@ -1,0 +1,19 @@
+body {
+  width: 100%;
+  color: #7DB249;
+  font-family: 'Roboto', sans-serif;
+}
+
+.form-group {
+  padding: 5% 3% 0% 3%;
+}
+
+.dumpNode {
+  color: #000000;
+}
+
+#bookmarks {
+  margin-left: -10%;
+  font-size: 1em;
+  color: #7DB249;
+}

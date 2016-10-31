@@ -1,9 +1,11 @@
 {
   "name": "Manais",
   "version": "0.1",
-  "description": "Description ici TODO",
+  "description": "Gestionnaire de session universel",
   "permissions": [
-    "bookmarks"
+    "bookmarks",
+    "unlimitedStorage",
+    "tabs"
   ],
   "browser_action": {
       "default_title": "Manais",
