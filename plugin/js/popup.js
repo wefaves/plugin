@@ -1,8 +1,20 @@
+
+/*document.addEventListener('DOMContentLoaded', function () {
+  window.open('test.html','_blank');
+});*/
+
+
+
+
+
+
+
+
 // Copyright (c) 2012 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 // Search the bookmarks when entering the search keyword.
-$(function() {
+/*$(function() {
   $('#search').change(function() {
     $('#bookmarks').empty();
     dumpBookmarks($('#search').val());
@@ -36,10 +48,10 @@ function dumpBookmarks(query) {
       var anchor = $('<a>');
       anchor.attr('href', bookmarkNode.url);
       anchor.text(bookmarkNode.title);
-      /*
-      * When clicking on a bookmark in the extension, a new tab is fired with
-      * the bookmark url.
-      */
+
+      // When clicking on a bookmark in the extension, a new tab is fired with
+      // the bookmark url.
+
       anchor.click(function() {
         chrome.tabs.create({url: bookmarkNode.url});
       });
@@ -52,14 +64,14 @@ function dumpBookmarks(query) {
       '<input id="title"></td></tr><tr><td>URL</td><td><input id="url">' +
       '</td></tr></table>') : $('<input>');
       // Show add and edit links when hover over.
-      span.hover(function() {
+      span.hover(function() {*/
       /*  $( "#deletedialog" ).dialog({
           autoOpen: false
         });*/
-        span.append(options);
+        /*span.append(options);
         $('#deletelink').click(function() {
           chrome.bookmarks.remove(String(bookmarkNode.id));
-          span.parent().remove();
+          span.parent().remove();*/
           /*
           $('#deletedialog').empty().dialog({
             autoOpen: false,
@@ -82,7 +94,7 @@ function dumpBookmarks(query) {
               }
             }
           }).dialog('open');*/
-        });
+        /*});
         $('#addlink').click(function() {
           $('#adddialog').empty().append(edit).dialog({autoOpen: false,
             closeOnEscape: true, title: 'Add New Bookmark', modal: true,
@@ -133,4 +145,4 @@ function dumpBookmarks(query) {
 
         document.addEventListener('DOMContentLoaded', function () {
           dumpBookmarks();
-        });
+        });*/
