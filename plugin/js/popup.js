@@ -1,25 +1,14 @@
-
-/*document.addEventListener('DOMContentLoaded', function () {
-  window.open('test.html','_blank');
-});*/
-
-
-
-
-
-
-
-
 // Copyright (c) 2012 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 // Search the bookmarks when entering the search keyword.
-/*$(function() {
+$(function() {
   $('#search').change(function() {
     $('#bookmarks').empty();
     dumpBookmarks($('#search').val());
   });
 });
+
 
 // Traverse the bookmark tree, and print the folder and nodes.
 function dumpBookmarks(query) {
@@ -64,15 +53,15 @@ function dumpBookmarks(query) {
       '<input id="title"></td></tr><tr><td>URL</td><td><input id="url">' +
       '</td></tr></table>') : $('<input>');
       // Show add and edit links when hover over.
-      span.hover(function() {*/
-      /*  $( "#deletedialog" ).dialog({
+      span.hover(function() {
+        $( "#deletedialog" ).dialog({
           autoOpen: false
-        });*/
-        /*span.append(options);
+        });
+        span.append(options);
         $('#deletelink').click(function() {
           chrome.bookmarks.remove(String(bookmarkNode.id));
-          span.parent().remove();*/
-          /*
+          span.parent().remove();
+
           $('#deletedialog').empty().dialog({
             autoOpen: false,
             title: 'Confirm Deletion',
@@ -93,8 +82,8 @@ function dumpBookmarks(query) {
                 $(this).dialog('destroy');
               }
             }
-          }).dialog('open');*/
-        /*});
+          }).dialog('open');
+        });
         $('#addlink').click(function() {
           $('#adddialog').empty().append(edit).dialog({autoOpen: false,
             closeOnEscape: true, title: 'Add New Bookmark', modal: true,
@@ -145,4 +134,4 @@ function dumpBookmarks(query) {
 
         document.addEventListener('DOMContentLoaded', function () {
           dumpBookmarks();
-        });*/
+        });
