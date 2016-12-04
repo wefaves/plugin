@@ -54,7 +54,7 @@ function dumpBookmarks(query) {
       '</td></tr></table>') : $('<input>');
       // Show add and edit links when hover over.
       span.hover(function() {
-        $( "#deletedialog" ).dialog({
+        /*$( "#deletedialog" ).dialog({
           autoOpen: false
         });
         span.append(options);
@@ -83,7 +83,7 @@ function dumpBookmarks(query) {
               }
             }
           }).dialog('open');
-        });
+        });*/
         $('#addlink').click(function() {
           $('#adddialog').empty().append(edit).dialog({autoOpen: false,
             closeOnEscape: true, title: 'Add New Bookmark', modal: true,
