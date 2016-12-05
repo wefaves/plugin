@@ -5,6 +5,10 @@ $(document).ready(function() {
     chrome.tabs.create({url: 'chrome://history'});
   }
 
+  $('#btnFaves').click(function() {
+    window.location.href="faves.html";
+  });
+
   var date = new Date();
   today = new Date(date.getFullYear(),date.getMonth(),date.getDate(),0,0,0,0);
   getHistory(today, 15);
