@@ -6,7 +6,8 @@
     "bookmarks",
     "unlimitedStorage",
     "tabs",
-    "history"
+    "history",
+    "chrome://favicon/"
   ],
   "browser_action": {
       "default_title": "Wefaves",

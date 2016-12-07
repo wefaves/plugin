@@ -25,3 +25,12 @@ body {
 h2, h3 {
   text-align: center;
 }
+
+.urlLink {
+  font-size: 0.9em;
+}
+
+.favLink {
+  padding-left: 10px;
+  padding-right: 10px;
+}
