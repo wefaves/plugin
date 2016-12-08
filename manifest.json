@@ -1,6 +1,6 @@
 {
   "name": "Wefaves",
-  "version": "0.1",
+  "version": "0.1.8",
   "description": "Gestionnaire de session universel",
   "permissions": [
     "bookmarks",
