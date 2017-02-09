@@ -47,18 +47,45 @@ function  sendBookmarks()
   var bookmarks = chrome.bookmarks.getTree(function(bookmarks) {
   var data = getBookmarks(bookmarks);
   console.log(data);
-  var onserv = data.slice();
-  onserv.push({id: "id_test", title: "test difference", url: "www.youcef.com"});
+  $.each(data, function( key, value ) {
+    $.ajax({
+      url: 'https://api.wefaves.com/users/self/favorite',
+      headers: { "Authorization" : "Bearer " + docCookies.getItem("token")},
+      type: 'POST',
+      //data: JSON.stringify(data),
+      data: JSON.stringify(value),
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      async: false,
+      success: function(msg) {
+        console.log('OOKK');
+        console.log(msg);
+      }
+    });
+  });
+  /*var onserv = data.slice();
+  onserv.push({
+    index: "1",
+    title: "test difference",
+    url: "www.youcef.com"
+  });
   data = getDifference(data, onserv);
   console.log(data);
-      /*$.ajax({
-        url: '',
+      $.ajax({
+        url: 'https://api.wefaves.com/users/self/favorite',
+        headers: { "Authorization" : "Bearer " + docCookies.getItem("token")},
         type: 'POST',
-        data: JSON.stringify(data),
+        //data: JSON.stringify(data),
+        data: JSON.stringify({
+          'index': '2',
+          'title': 'test title',
+          'url': 'www.youcef.com'
+        }),
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         async: false,
         success: function(msg) {
+          console.log('OOKK');
           console.log(msg);
         }
       });*/
