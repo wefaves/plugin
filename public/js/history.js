@@ -1,5 +1,7 @@
 $(document).ready(function() {
-  getHistoryChrome(15, false);
+  //getHistoryChrome(15, false);
+  getUsersHistory("", false);
+
   //getHistoryChrome(100, true);
 
   $('#btnFaves').click(function() {
@@ -53,14 +55,18 @@ $(document).ready(function() {
     }
   };
 
-  function  getUsersHistory(localHistory) {
+  function  getUsersHistory(localHistory, bool) {
     $.ajax({
       url: "https://api.wefaves.com/users/self/history",
       headers: { "Authorization" : "Bearer " + docCookies.getItem("token")},
       contentType : 'application/json',
       type: "GET",
       success: function(result){
-        synchronize(localHistory, result);
+        if (bool == true) {
+          synchronize(localHistory, result);
+        } else {
+          displayHistory(result);
+        }
       },
       error: function(xhr) {
         alert(xhr.responseText);
@@ -89,28 +95,6 @@ $(document).ready(function() {
       }
     });
   };
-
-  // function  postHistory(history) {
-  //   $.ajax({
-  //     url: "https://api.wefaves.com/users/self/history",
-  //     headers: { "Authorization" : "Bearer " + docCookies.getItem("token")},
-  //     data: JSON.stringify({
-  //       'title': "ulaval2",
-  //       'lastVisit': "2016-12-07T11:11:20+00:00",
-  //       'typedCount': "0",
-  //       'url': "https://monportail.ulaval.ca/accueil/",
-  //       'visitCount': "1063"
-  //     }),
-  //     contentType : 'application/json',
-  //     type: "POST",
-  //     success:function(result){
-  //       return result;
-  //     },
-  //     error: function(xhr) {
-  //       alert(xhr.responseText);
-  //     }
-  //   });
-  // };
 
   function  displayHistory(results) {
     var data = "";
