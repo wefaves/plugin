@@ -1,28 +1,118 @@
 $(document).ready(function() {
-  $('#allHistory').click(tabsHistory);
-  getHistory(15);
+  getHistoryChrome(15, false);
+  //getHistoryChrome(100, true);
 
   $('#btnFaves').click(function() {
     window.location.href="faves.html";
   });
 
-  function tabsHistory() {
-    chrome.tabs.create({url: 'chrome://history'});
-  }
+  $('#clientAccount').click(function() {
+    chrome.tabs.create({url: 'http://wefaves.com/'});
+  });
 
-  function getHistory(nb){
+  $('#allHistory').click(function() {
+    chrome.tabs.create({url: 'chrome://history'});
+  });
+
+  $('#synchronize').click(function() {
+    getHistoryChrome(100, true);
+  });
+
+  function getHistoryChrome(nb, bool){
     var query = {
       text: '',
       maxResults: nb
     };
-    loading = true;
     chrome.history.search(query, function(results){
-      console.log(results);
-      displayHistory(results);
+      if (bool == false) {
+        displayHistory(results);
+      }
+      else {
+        getUsersHistory(results);
+      }
     });
   };
 
-  function displayHistory(results) {
+  function  getDifference(local, dds) {
+    var difference = [];
+    jQuery.grep(dds, function(el) {
+      if (jQuery.inArray(el, local) == -1) difference.push(el);
+    });
+    return difference;
+  };
+
+  function  synchronize(localHistory, userHistory) {
+    console.log(docCookies.getItem("token"));
+    console.log("synchronize\n");
+    console.log(localHistory);
+    console.log(userHistory);
+    var difference = getDifference(userHistory, localHistory);
+    console.log(difference);
+    for (var i = 0; i < difference.length; i++) {
+      postHistory(difference[i]);
+    }
+  };
+
+  function  getUsersHistory(localHistory) {
+    $.ajax({
+      url: "https://api.wefaves.com/users/self/history",
+      headers: { "Authorization" : "Bearer " + docCookies.getItem("token")},
+      contentType : 'application/json',
+      type: "GET",
+      success: function(result){
+        synchronize(localHistory, result);
+      },
+      error: function(xhr) {
+        alert(xhr.responseText);
+      }
+    });
+  };
+
+  function  postHistory(history) {
+    $.ajax({
+      url: "https://api.wefaves.com/users/self/history",
+      headers: { "Authorization" : "Bearer " + docCookies.getItem("token")},
+      data: JSON.stringify({
+        'title': history.title,
+        'lastVisit': history.lastVisitTime,
+        'typedCount': history.typedCount,
+        'url': history.url,
+        'visitCount': history.visitCount
+      }),
+      contentType : 'application/json',
+      type: "POST",
+      success: function(result){
+        console.log(result);
+      },
+      error: function(xhr) {
+        alert(xhr.responseText);
+      }
+    });
+  };
+
+  // function  postHistory(history) {
+  //   $.ajax({
+  //     url: "https://api.wefaves.com/users/self/history",
+  //     headers: { "Authorization" : "Bearer " + docCookies.getItem("token")},
+  //     data: JSON.stringify({
+  //       'title': "ulaval2",
+  //       'lastVisit': "2016-12-07T11:11:20+00:00",
+  //       'typedCount': "0",
+  //       'url': "https://monportail.ulaval.ca/accueil/",
+  //       'visitCount': "1063"
+  //     }),
+  //     contentType : 'application/json',
+  //     type: "POST",
+  //     success:function(result){
+  //       return result;
+  //     },
+  //     error: function(xhr) {
+  //       alert(xhr.responseText);
+  //     }
+  //   });
+  // };
+
+  function  displayHistory(results) {
     var data = "";
     for (var i = 0; i < results.length; i++) {
       //console.log(results[i].id);
