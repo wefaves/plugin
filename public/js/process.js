@@ -28,7 +28,8 @@ $('#btnHistory').click(function() {
 
 
 $('#synchro').click(function() {
-  sendBookmarks();
+  sendFaves();
+  //getFaves();
 });
 
 function  getDifference(local, dds)
@@ -42,53 +43,66 @@ function  getDifference(local, dds)
   return difference;
 }
 
-function  sendBookmarks()
+function  deleteFaves(data)
 {
-  var bookmarks = chrome.bookmarks.getTree(function(bookmarks) {
-  var data = getBookmarks(bookmarks);
-  console.log(data);
-  $.each(data, function( key, value ) {
+  $.each(data, function(key, value) {
+    console.log(value['id']);
     $.ajax({
-      url: 'https://api.wefaves.com/users/self/favorite',
+      url: 'https://api.wefaves.com/users/self/favorite/' + value['id'],
       headers: { "Authorization" : "Bearer " + docCookies.getItem("token")},
-      type: 'POST',
+      type: 'DELETE',
       //data: JSON.stringify(data),
-      data: JSON.stringify(value),
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
       async: false,
-      success: function(msg) {
-        console.log('OOKK');
+      success: function(datas) {
         console.log(msg);
       }
     });
   });
-  /*var onserv = data.slice();
-  onserv.push({
-    index: "1",
-    title: "test difference",
-    url: "www.youcef.com"
+}
+
+function  getFaves()
+{
+  $.ajax({
+    url: 'https://api.wefaves.com/users/self/favorite',
+    headers: { "Authorization" : "Bearer " + docCookies.getItem("token")},
+    type: 'GET',
+    //data: JSON.stringify(data),
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    async: true,
+    success: function(datas) {
+      $.each(datas, function(obj) {
+        delete this.id;
+        delete this.indexId;
+        delete this.user;
+        chrome.bookmarks.create(this, function(){
+          console.log("UPDATED");
+        });
+      });
+    }
   });
-  data = getDifference(data, onserv);
-  console.log(data);
+}
+
+function  sendFaves()
+{
+  var bookmarks = chrome.bookmarks.getTree(function(bookmarks) {
+  var data = getBookmarks(bookmarks);
+  $.each(data, function(key, value) {
       $.ajax({
         url: 'https://api.wefaves.com/users/self/favorite',
         headers: { "Authorization" : "Bearer " + docCookies.getItem("token")},
         type: 'POST',
-        //data: JSON.stringify(data),
-        data: JSON.stringify({
-          'index': '2',
-          'title': 'test title',
-          'url': 'www.youcef.com'
-        }),
+        data: JSON.stringify(value),
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         async: false,
-        success: function(msg) {
-          console.log('OOKK');
-          console.log(msg);
+        success: function(datas) {
+          console.log(datas);
         }
-      });*/
+      });
+    });
+    getFaves();
   });
-
 }
