@@ -1,0 +1,38 @@
+<link rel="manifest" href="/manifest.json">
+<div class="boxed boxed--border bg--secondary">
+  <div class="container">
+
+    <div class="row block1">
+      <span class="col textData"><img src="assets/icon_32x32.png" alt="icone Wefaves" class="imgPlugin">{{title}}</span>
+      <span class="col dropdown">
+          <i class="icon glyphicon glyphicon-option-horizontal" data-toggle="dropdown"></i>
+          <ul class="dropdown-menu dropdown-menu" style="left:-80px;">
+            <li><a href="#" (click)="open($event)" id="webApp"><i class="iconMenu glyphicon glyphicon-new-window"></i> Ouvrir Wefaves</a></li>
+            <li><a href="#" (click)="settings($event)" id="setting"><i class="iconMenu glyphicon glyphicon glyphicon-cog"></i> Paramètres</a></li>
+            <li><a href="#" (click)="desconnect($event)" id="logOut"><i class="iconMenu glyphicon glyphicon glyphicon-off"></i> Déconnection</a></li>
+          </ul>
+        </span>
+
+    </div>
+
+  </div>
+</div>
+
+<div class="boxed boxed--border bg--secondary">
+  <div class="container">
+
+    <div>Rechercher un élément :</div>
+    <input type="text" #search (change)="displaySearch(search.value)" name="" value="" class="form-control">
+    <ul>
+      <li *ngFor="let l of list">
+        <a target="_blank" href={{l.url}}>{{l.title}}</a>
+      </li>
+    </ul>
+
+
+  </div>
+  <br>
+</div>
+
+<app-bookmarks> </app-bookmarks>
+<!-- <app-history> </app-history> -->

@@ -3,7 +3,7 @@
 // github.com/samsonjs/strftime
 // @_sjs
 //
-// Copyright 2010 - 2015 Sami Samhuri <sami@samhuri.net>
+// Copyright 2010 - 2016 Sami Samhuri <sami@samhuri.net>
 //
 // MIT License
 // http://sjs.mit-license.org
@@ -11,127 +11,279 @@
 
 ;(function() {
 
-    var DefaultLocale = {
-            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-            shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-            months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-            shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    var Locales = {
+        de_DE: {
+            days: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+            shortDays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+            months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+            shortMonths: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
             AM: 'AM',
             PM: 'PM',
             am: 'am',
             pm: 'pm',
             formats: {
-                D: '%m/%d/%y',
+                c: '%a %d %b %Y %X %Z',
+                D: '%d.%m.%Y',
                 F: '%Y-%m-%d',
                 R: '%H:%M',
-                T: '%H:%M:%S',
-                X: '%T',
-                c: '%a %b %d %X %Y',
                 r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
                 v: '%e-%b-%Y',
+                X: '%T',
                 x: '%D'
             }
         },
+
+        en_CA: {
+            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
+            shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            ordinalSuffixes: [
+                'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th', 'th',
+                'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th',
+                'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th', 'th',
+                'st'
+            ],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d/%m/%y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%r',
+                x: '%D'
+            }
+        },
+
+        en_US: {
+            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
+            shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            ordinalSuffixes: [
+                'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th', 'th',
+                'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th',
+                'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th', 'th',
+                'st'
+            ],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%m/%d/%y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%r',
+                x: '%D'
+            }
+        },
+
+        es_MX: {
+            days: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+            shortDays: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+            months: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre',' diciembre'],
+            shortMonths: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d/%m/%Y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+            }
+        },
+
+        fr_FR: {
+            days: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
+            shortDays: ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'],
+            months: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+            shortMonths: ['janv.', 'févr.', 'mars', 'avril', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d/%m/%Y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+            }
+        },
+
+        it_IT: {
+            days: ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato'],
+            shortDays: ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'],
+            months: ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'],
+            shortMonths: ['pr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d/%m/%Y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+            }
+        },
+
+        nl_NL: {
+            days: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
+            shortDays: ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
+            months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
+            shortMonths: ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d-%m-%y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+            }
+        },
+
+        pt_BR: {
+            days: ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'],
+            shortDays: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+            months: ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'],
+            shortMonths: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d-%m-%Y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+            }
+        },
+
+        ru_RU: {
+            days: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+            shortDays: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+            months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+            shortMonths: ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                c: '%a %d %b %Y %X',
+                D: '%d.%m.%y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+            }
+        },
+
+        tr_TR: {
+            days: ['Pazar', 'Pazartesi', 'Salı','Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
+            shortDays: ['Paz', 'Pzt', 'Sal', 'Çrş', 'Prş', 'Cum', 'Cts'],
+            months: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+            shortMonths: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'],
+            AM: 'ÖÖ',
+            PM: 'ÖS',
+            am: 'ÖÖ',
+            pm: 'ÖS',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d-%m-%Y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+            }
+        },
+
+        // By michaeljayt<michaeljayt@gmail.com>
+        // https://github.com/michaeljayt/strftime/commit/bcb4c12743811d51e568175aa7bff3fd2a77cef3
+        zh_CN: {
+            days: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+            shortDays: ['日', '一', '二', '三', '四', '五', '六'],
+            months: ['一月份', '二月份', '三月份', '四月份', '五月份', '六月份', '七月份', '八月份', '九月份', '十月份', '十一月份', '十二月份'],
+            shortMonths: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+            AM: '上午',
+            PM: '下午',
+            am: '上午',
+            pm: '下午',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d/%m/%y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%r',
+                x: '%D'
+            }
+        }
+    };
+
+    var DefaultLocale = Locales['en_US'],
         defaultStrftime = new Strftime(DefaultLocale, 0, false),
         isCommonJS = typeof module !== 'undefined',
         namespace;
 
     // CommonJS / Node module
     if (isCommonJS) {
-        namespace = module.exports = adaptedStrftime;
-        namespace.strftime = deprecatedStrftime;
+        namespace = module.exports = defaultStrftime;
     }
     // Browsers and other environments
     else {
         // Get the global object. Works in ES3, ES5, and ES5 strict mode.
         namespace = (function() { return this || (1,eval)('this'); }());
-        namespace.strftime = adaptedStrftime;
+        namespace.strftime = defaultStrftime;
     }
-
-    // Deprecated API, to be removed in v1.0
-    var _require = isCommonJS ? "require('strftime')" : "strftime";
-    var _deprecationWarnings = {};
-    function deprecationWarning(name, instead) {
-        if (!_deprecationWarnings[name]) {
-            if (typeof console !== 'undefined' && typeof console.warn == 'function') {
-                console.warn("[WARNING] " + name + " is deprecated and will be removed in version 1.0. Instead, use `" + instead + "`.");
-            }
-            _deprecationWarnings[name] = true;
-        }
-    }
-
-    namespace.strftimeTZ = deprecatedStrftimeTZ;
-    namespace.strftimeUTC = deprecatedStrftimeUTC;
-    namespace.localizedStrftime = deprecatedStrftimeLocalized;
-
-    // Adapt the old API while preserving the new API.
-    function adaptForwards(fn) {
-        fn.localize = defaultStrftime.localize.bind(defaultStrftime);
-        fn.timezone = defaultStrftime.timezone.bind(defaultStrftime);
-        fn.utc = defaultStrftime.utc.bind(defaultStrftime);
-    }
-
-    adaptForwards(adaptedStrftime);
-    function adaptedStrftime(fmt, d, locale) {
-        // d and locale are optional, check if this is (format, locale)
-        if (d && d.days) {
-            locale = d;
-            d = undefined;
-        }
-        if (locale) {
-            deprecationWarning("`" + _require + "(format, [date], [locale])`", "var s = " + _require + ".localize(locale); s(format, [date])");
-        }
-        var strftime = locale ? defaultStrftime.localize(locale) : defaultStrftime;
-        return strftime(fmt, d);
-    }
-
-    adaptForwards(deprecatedStrftime);
-    function deprecatedStrftime(fmt, d, locale) {
-        if (locale) {
-            deprecationWarning("`" + _require + ".strftime(format, [date], [locale])`", "var s = " + _require + ".localize(locale); s(format, [date])");
-        }
-        else {
-            deprecationWarning("`" + _require + ".strftime(format, [date])`", _require + "(format, [date])");
-        }
-        var strftime = locale ? defaultStrftime.localize(locale) : defaultStrftime;
-        return strftime(fmt, d);
-    }
-
-    function deprecatedStrftimeTZ(fmt, d, locale, timezone) {
-        // locale is optional, check if this is (format, date, timezone)
-        if ((typeof locale == 'number' || typeof locale == 'string') && timezone == null) {
-            timezone = locale;
-            locale = undefined;
-        }
-
-        if (locale) {
-            deprecationWarning("`" + _require + ".strftimeTZ(format, date, locale, tz)`", "var s = " + _require + ".localize(locale).timezone(tz); s(format, [date])` or `var s = " + _require + ".localize(locale); s.timezone(tz)(format, [date])");
-        }
-        else {
-            deprecationWarning("`" + _require + ".strftimeTZ(format, date, tz)`", "var s = " + _require + ".timezone(tz); s(format, [date])` or `" + _require + ".timezone(tz)(format, [date])");
-        }
-
-        var strftime = (locale ? defaultStrftime.localize(locale) : defaultStrftime).timezone(timezone);
-        return strftime(fmt, d);
-    }
-
-    var utcStrftime = defaultStrftime.utc();
-    function deprecatedStrftimeUTC(fmt, d, locale) {
-        if (locale) {
-            deprecationWarning("`" + _require + ".strftimeUTC(format, date, locale)`", "var s = " + _require + ".localize(locale).utc(); s(format, [date])");
-        }
-        else {
-            deprecationWarning("`" + _require + ".strftimeUTC(format, [date])`", "var s = " + _require + ".utc(); s(format, [date])");
-        }
-        var strftime = locale ? utcStrftime.localize(locale) : utcStrftime;
-        return strftime(fmt, d);
-    }
-
-    function deprecatedStrftimeLocalized(locale) {
-        deprecationWarning("`" + _require + ".localizedStrftime(locale)`", _require + ".localize(locale)");
-        return defaultStrftime.localize(locale);
-    }
-    // End of deprecated API
 
     // Polyfill Date.now for old browsers.
     if (typeof Date.now !== 'function') {
@@ -178,7 +330,14 @@
                 timestamp = date.getTime();
 
                 if (_useUtcBasedDate) {
-                    date = new Date(date.getTime() + getTimestampToUtcOffsetFor(date) + _customTimezoneOffset);
+                    var utcOffset = getTimestampToUtcOffsetFor(date);
+                    date = new Date(timestamp + utcOffset + _customTimezoneOffset);
+                    // If we've crossed a DST boundary with this calculation we need to
+                    // adjust the new date accordingly or it will be off by an hour in UTC.
+                    if (getTimestampToUtcOffsetFor(date) !== utcOffset) {
+                        var newUTCOffset = getTimestampToUtcOffsetFor(date);
+                        date = new Date(timestamp + newUTCOffset + _customTimezoneOffset);
+                    }
                 }
             }
 
@@ -215,9 +374,7 @@
                     // ':'
                     else if (currentCharCode === 58) {
                       if (extendedTZ) {
-                        if (typeof console !== 'undefined' && typeof console.warn == 'function') {
-                          console.warn("[WARNING] detected use of unsupported %:: or %::: modifiers to strftime");
-                        }
+                          warn("[WARNING] detected use of unsupported %:: or %::: modifiers to strftime");
                       }
                       extendedTZ = true;
                       continue;
@@ -226,6 +383,12 @@
                     switch (currentCharCode) {
 
                         // Examples for new Date(0) in GMT
+
+                        // '%'
+                        // case '%':
+                        case 37:
+                            resultString += '%';
+                            break;
 
                         // 'Thursday'
                         // case 'A':
@@ -413,7 +576,15 @@
                         // '1st'
                         // case 'o':
                         case 111:
-                            resultString += String(date.getDate()) + ordinal(date.getDate());
+                            // Try to use an ordinal suffix from the locale, but fall back to using the old
+                            // function for compatibility with old locales that lack them.
+                            var day = date.getDate();
+                            if (locale.ordinalSuffixes) {
+                                resultString += String(day) + (locale.ordinalSuffixes[day - 1] || ordinal(day));
+                            }
+                            else {
+                                resultString += String(day) + ordinal(day);
+                            }
                             break;
 
                         // 'AM'
@@ -494,6 +665,9 @@
                             break;
 
                         default:
+                            if (isInScope) {
+                                resultString += '%';
+                            }
                             resultString += format[i];
                             break;
                     }
@@ -519,6 +693,15 @@
 
         strftime.localize = function(locale) {
             return new Strftime(locale || _locale, _customTimezoneOffset, _useUtcBasedDate);
+        };
+
+        strftime.localizeByIdentifier = function(localeIdentifier) {
+            var locale = Locales[localeIdentifier];
+            if (!locale) {
+                warn('[WARNING] No locale found with identifier "' + localeIdentifier + '".');
+                return strftime;
+            }
+            return strftime.localize(locale);
         };
 
         strftime.timezone = function(timezone) {
@@ -624,6 +807,12 @@
 
     function getTimestampToUtcOffsetFor(date) {
         return (date.getTimezoneOffset() || 0) * 60000;
+    }
+
+    function warn(message) {
+        if (typeof console !== 'undefined' && typeof console.warn == 'function') {
+            console.warn(message)
+        }
     }
 
 }());

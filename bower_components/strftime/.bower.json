@@ -1,6 +1,6 @@
 {
   "name": "strftime",
-  "version": "0.9.2",
+  "version": "0.10.0",
   "main": "strftime.js",
   "ignore": [
     "Readme.md",
@@ -11,14 +11,13 @@
   "dependencies": {},
   "devDependencies": {},
   "homepage": "https://github.com/samsonjs/strftime",
-  "_release": "0.9.2",
+  "_release": "0.10.0",
   "_resolution": {
     "type": "version",
-    "tag": "v0.9.2",
-    "commit": "b852daca88bd4f055c1d6e0b91d7d1d707cf32f9"
+    "tag": "v0.10.0",
+    "commit": "793ecfb7b492da0818c60ca205e86799027d4c1d"
   },
   "_source": "https://github.com/samsonjs/strftime.git",
-  "_target": "^0.9.2",
-  "_originalSource": "strftime",
-  "_direct": true
+  "_target": "^0.10.0",
+  "_originalSource": "strftime"
 }
