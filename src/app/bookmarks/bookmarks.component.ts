@@ -3,8 +3,7 @@ import { BookmarksService } from  "../services/bookmarks.service";
 
 @Component({
   selector: 'app-bookmarks',
-  templateUrl: './bookmarks.component.html',
-  styleUrls: ['./bookmarks.component.css']
+  templateUrl: './bookmarks.component.html'
 })
 export class BookmarksComponent implements OnInit {
 
@@ -83,9 +82,9 @@ export class BookmarksComponent implements OnInit {
         if (callback) {
           callback(cookie ? cookie.value : null);
         }
-        if (!cookie) {
-          window.open('http://dev.my.wefaves.com.s3-website.eu-central-1.amazonaws.com/');
-        }
+        /*if (!cookie) {
+          window.open('http://dev.my.wefaves.com.s3-website.eu-central-1.amazonaws.com/#/account/login');
+        }*/
     });
 }
 

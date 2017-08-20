@@ -6,6 +6,8 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { BookmarksComponent } from './bookmarks/bookmarks.component';
 import { HistoryComponent } from './history/history.component';
+import { SearchComponent } from './search/search.component';
+
 
 import {BookmarksService} from './services/bookmarks.service';
 import  {HistoryService}  from './services/history.service';
@@ -14,7 +16,8 @@ import  {HistoryService}  from './services/history.service';
   declarations: [
     AppComponent,
     BookmarksComponent,
-    HistoryComponent
+    HistoryComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

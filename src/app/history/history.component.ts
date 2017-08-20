@@ -4,8 +4,7 @@ import {logger} from "codelyzer/util/logger";
 
 @Component({
   selector: 'app-history',
-  templateUrl: './history.component.html',
-  styleUrls: ['./history.component.css']
+  templateUrl: './history.component.html'
 })
 
 export class HistoryComponent implements OnInit {
@@ -45,15 +44,15 @@ export class HistoryComponent implements OnInit {
       this.historyService.addHistory(i, this.key)
         .subscribe(
           value => {
-            //console.log(value);
+            console.log(value);
           });
     }
   }
 
   private compareHistory(history, currentHistory) {
     this.difference = [];
-    let value = 0;
     for (let i of currentHistory) {
+      let value = 0;
       for (let j of history) {
         if (i.title == j.title) {
           value = 1;
@@ -81,7 +80,7 @@ export class HistoryComponent implements OnInit {
         callback(cookie ? cookie.value : null);
       }
       if (!cookie) {
-        window.open('http://dev.my.wefaves.com.s3-website.eu-central-1.amazonaws.com/');
+        window.open('http://dev.my.wefaves.com.s3-website.eu-central-1.amazonaws.com/#/account/login');
       }
     });
   }
