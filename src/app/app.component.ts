@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   constructor(private http: Http, private historyService: HistoryService) {
     chrome.bookmarks.getTree(function (tree) {
       const bookmarks = Bookmark.ParseFromObjectToArray(tree);
-      console.log(bookmarks);
+      //console.log(bookmarks);
     });
   }
 
