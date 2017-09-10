@@ -7,7 +7,7 @@ export class GlobalTokenService {
   //var bookmarksService;
 
   constructor(private serviceHandler: ServiceHandlerService) {
-    this.getCookies("http://dev.my.wefaves.com.s3-website.eu-central-1.amazonaws.com/", "currentUser", this.callHandler, serviceHandler);
+    this.getCookies("http://www.my.wefaves.com/", "currentUser", this.callHandler, serviceHandler);
   }
 
     private getCookies(domain, name, callback, service) {
@@ -22,7 +22,7 @@ export class GlobalTokenService {
     }
 
     private callHandler(key, service) {
-      service.setCookie(key);
+      service.executeServices(key);
     }
 
 }

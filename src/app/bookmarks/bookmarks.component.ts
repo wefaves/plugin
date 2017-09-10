@@ -27,7 +27,7 @@ export class BookmarksComponent implements OnInit {
     let query = {
       url: ''
     };
-      this.bookmarksService.getBookmarks(key)
+      this.bookmarksService.getBookmarks()
         .subscribe(
           bookmarks => {
             this.bookmarks = bookmarks;
@@ -42,7 +42,7 @@ export class BookmarksComponent implements OnInit {
 
   private addDiffence() {
     for (let i of this.difference) {
-      this.bookmarksService.addBookmarks(i, this.key)
+      this.bookmarksService.addBookmarks(i)
         .subscribe(
           value => {
             //console.log(value);

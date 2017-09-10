@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
+import { BookmarksService } from './bookmarks.service';
+import { HistoryService } from './history.service';
 
 @Injectable()
 export class ServiceHandlerService {
 
-  constructor() {
+  constructor(private bookmarksService: BookmarksService, public historyService: HistoryService) {
 
   }
 
-  public  setCookie(key) {
-    console.log('works' + key);
+  public executeServices(key) {
+    this.bookmarksService.setCookie(key);
   }
 
 }

@@ -1,6 +1,6 @@
 webpackJsonp([1,5],{
 
-/***/ 175:
+/***/ 117:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48,7 +48,7 @@ var HistoryService = (function () {
 
 /***/ }),
 
-/***/ 276:
+/***/ 176:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -73,21 +73,24 @@ var BookmarksService = (function () {
     function BookmarksService(http) {
         this.http = http;
     }
-    BookmarksService.prototype.getBookmarks = function (key) {
-        return this.http.get('https://api.wefaves.com/users/self/favorite', this.getToken(key))
+    BookmarksService.prototype.getBookmarks = function () {
+        return this.http.get('https://api.wefaves.com/users/self/favorite', this.getToken())
             .map(function (response) { return response.json(); });
     };
-    BookmarksService.prototype.addBookmarks = function (bookmarks, key) {
-        return this.http.post('https://api.wefaves.com/users/self/favorite', bookmarks, this.getToken(key))
+    BookmarksService.prototype.addBookmarks = function (bookmarks) {
+        return this.http.post('https://api.wefaves.com/users/self/favorite', bookmarks, this.getToken())
             .map(function (response) { return response.json(); });
     };
-    BookmarksService.prototype.getToken = function (key) {
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Authorization': 'Bearer ' + key });
+    BookmarksService.prototype.getToken = function () {
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Authorization': 'Bearer ' + this.cookie });
         return new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* RequestOptions */]({ headers: headers });
     };
     BookmarksService.prototype.setCookie = function (key) {
-        console.log('je suis dans le but');
-        console.log('setCookie: ' + key);
+        console.log(key);
+        this.cookie = key;
+    };
+    BookmarksService.prototype.getCookie = function () {
+        return this.cookie;
     };
     BookmarksService = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(), 
@@ -121,12 +124,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var GlobalTokenService = (function () {
     //var bookmarksService;
     function GlobalTokenService(serviceHandler) {
-        /*this.getCookies("http://dev.my.wefaves.com.s3-website.eu-central-1.amazonaws.com/", "currentUser", (key) => {
-          this.callBookmarks(key);
-          console.log('constructor' + key);
-        });*/
         this.serviceHandler = serviceHandler;
-        this.getCookies("http://dev.my.wefaves.com.s3-website.eu-central-1.amazonaws.com/", "currentUser", this.callHandler, serviceHandler);
+        this.getCookies("http://www.my.wefaves.com/", "currentUser", this.callHandler, serviceHandler);
     }
     GlobalTokenService.prototype.getCookies = function (domain, name, callback, service) {
         chrome.cookies.get({ "url": domain, "name": name }, function (cookie) {
@@ -139,7 +138,7 @@ var GlobalTokenService = (function () {
         });
     };
     GlobalTokenService.prototype.callHandler = function (key, service) {
-        service.setCookie(key);
+        service.executeServices(key);
     };
     GlobalTokenService = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(), 
@@ -157,6 +156,8 @@ var GlobalTokenService = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__bookmarks_service__ = __webpack_require__(176);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__history_service__ = __webpack_require__(117);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ServiceHandlerService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -168,17 +169,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
 var ServiceHandlerService = (function () {
-    function ServiceHandlerService() {
+    function ServiceHandlerService(bookmarksService, historyService) {
+        this.bookmarksService = bookmarksService;
+        this.historyService = historyService;
     }
-    ServiceHandlerService.prototype.setCookie = function (key) {
-        console.log('works' + key);
+    ServiceHandlerService.prototype.executeServices = function (key) {
+        this.bookmarksService.setCookie(key);
     };
     ServiceHandlerService = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__bookmarks_service__["a" /* BookmarksService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__bookmarks_service__["a" /* BookmarksService */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__history_service__["a" /* HistoryService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__history_service__["a" /* HistoryService */]) === 'function' && _b) || Object])
     ], ServiceHandlerService);
     return ServiceHandlerService;
+    var _a, _b;
 }());
 //# sourceMappingURL=/Users/yous/Local/Repositories/plugin-chrome/src/service-handler.service.js.map
 
@@ -301,7 +307,7 @@ var AppComponent = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(167);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(168);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(381);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(71);
@@ -309,8 +315,8 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__bookmarks_bookmarks_component__ = __webpack_require__(412);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__history_history_component__ = __webpack_require__(413);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__search_search_component__ = __webpack_require__(414);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_bookmarks_service__ = __webpack_require__(276);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_history_service__ = __webpack_require__(175);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_bookmarks_service__ = __webpack_require__(176);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_history_service__ = __webpack_require__(117);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_global_token_service__ = __webpack_require__(277);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__services_service_handler_service__ = __webpack_require__(278);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
@@ -367,7 +373,7 @@ var AppModule = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_bookmarks_service__ = __webpack_require__(276);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_bookmarks_service__ = __webpack_require__(176);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BookmarksComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -398,7 +404,7 @@ var BookmarksComponent = (function () {
         var query = {
             url: ''
         };
-        this.bookmarksService.getBookmarks(key)
+        this.bookmarksService.getBookmarks()
             .subscribe(function (bookmarks) {
             _this.bookmarks = bookmarks;
             // this.getCurrentBookmarks(query, (currentBookmarks) => {
@@ -410,7 +416,7 @@ var BookmarksComponent = (function () {
     BookmarksComponent.prototype.addDiffence = function () {
         for (var _i = 0, _a = this.difference; _i < _a.length; _i++) {
             var i = _a[_i];
-            this.bookmarksService.addBookmarks(i, this.key)
+            this.bookmarksService.addBookmarks(i)
                 .subscribe(function (value) {
                 //console.log(value);
             });
@@ -454,7 +460,7 @@ var BookmarksComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_history_service__ = __webpack_require__(175);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_history_service__ = __webpack_require__(117);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HistoryComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -541,7 +547,7 @@ var HistoryComponent = (function () {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_history_service__ = __webpack_require__(175);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_history_service__ = __webpack_require__(117);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
