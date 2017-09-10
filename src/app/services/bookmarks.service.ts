@@ -23,4 +23,9 @@ export class BookmarksService {
     return new RequestOptions({ headers: headers });
   }
 
+  public  setCookie(key) {
+    console.log('je suis dans le but');
+    console.log('setCookie: ' + key);
+  }
+
 }

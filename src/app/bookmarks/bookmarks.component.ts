@@ -16,10 +16,10 @@ export class BookmarksComponent implements OnInit {
 
   ngOnInit() {
 
-    this.getCookies("http://dev.my.wefaves.com.s3-website.eu-central-1.amazonaws.com/", "currentUser", (key) => {
-      this.key = key;
-      this.loadBookmarks(key);
-    });
+    // this.getCookies("http://dev.my.wefaves.com.s3-website.eu-central-1.amazonaws.com/", "currentUser", (key) => {
+    //   this.key = key;
+    //   this.loadBookmarks(key);
+    // });
   }
 
   loadBookmarks(key) {
@@ -31,9 +31,9 @@ export class BookmarksComponent implements OnInit {
         .subscribe(
           bookmarks => {
             this.bookmarks = bookmarks;
-            this.getCurrentBookmarks(query, (currentBookmarks) => {
-              this.compareBookmarks(this.bookmarks, currentBookmarks);
-            });
+            // this.getCurrentBookmarks(query, (currentBookmarks) => {
+            //   this.compareBookmarks(this.bookmarks, currentBookmarks);
+            // });
           },
           error => {
           });
@@ -68,24 +68,24 @@ export class BookmarksComponent implements OnInit {
     this.addDiffence();
   }
 
-  private getCurrentBookmarks(query, callback) {
-
-    chrome.bookmarks.getChildren('1', function (results) {
-      if (callback) {
-          callback(results);
-        }
-    });
-  }
-
-  private getCookies(domain, name, callback) {
-    chrome.cookies.get({"url": domain, "name": name}, function(cookie) {
-        if (callback) {
-          callback(cookie ? cookie.value : null);
-        }
-        /*if (!cookie) {
-          window.open('http://dev.my.wefaves.com.s3-website.eu-central-1.amazonaws.com/#/account/login');
-        }*/
-    });
-}
+//   private getCurrentBookmarks(query, callback) {
+//
+//     chrome.bookmarks.getChildren('1', function (results) {
+//       if (callback) {
+//           callback(results);
+//         }
+//     });
+//   }
+//
+//   private getCookies(domain, name, callback) {
+//     chrome.cookies.get({"url": domain, "name": name}, function(cookie) {
+//         if (callback) {
+//           callback(cookie ? cookie.value : null);
+//         }
+//         /*if (!cookie) {
+//           window.open('http://dev.my.wefaves.com.s3-website.eu-central-1.amazonaws.com/#/account/login');
+//         }*/
+//     });
+// }
 
 }

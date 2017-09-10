@@ -18,10 +18,10 @@ export class HistoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getCookies("http://dev.my.wefaves.com.s3-website.eu-central-1.amazonaws.com/", "currentUser", (key) => {
-      this.key = key;
-      this.loadHistory(key);
-    });
+    // this.getCookies("http://dev.my.wefaves.com.s3-website.eu-central-1.amazonaws.com/", "currentUser", (key) => {
+    //   this.key = key;
+    //   this.loadHistory(key);
+    // });
   }
 
   loadHistory(key) {
@@ -33,9 +33,9 @@ export class HistoryComponent implements OnInit {
       .subscribe(
         history => {
           this.history = history;
-          this.getCurrentHistory(query, (currentHistory) => {
-            this.compareHistory(this.history, currentHistory);
-          });
+          // this.getCurrentHistory(query, (currentHistory) => {
+          //   this.compareHistory(this.history, currentHistory);
+          // });
         });
   }
 
@@ -66,23 +66,23 @@ export class HistoryComponent implements OnInit {
     this.addDiffence();
   }
 
-  private getCurrentHistory(query, callback) {
-    chrome.history.search(query, function (results) {
-      if (callback) {
-        callback(results);
-      }
-    });
-  }
-
-  private getCookies(domain, name, callback) {
-    chrome.cookies.get({"url": domain, "name": name}, function (cookie) {
-      if (callback) {
-        callback(cookie ? cookie.value : null);
-      }
-      if (!cookie) {
-        window.open('http://dev.my.wefaves.com.s3-website.eu-central-1.amazonaws.com/#/account/login');
-      }
-    });
-  }
+  // private getCurrentHistory(query, callback) {
+  //   chrome.history.search(query, function (results) {
+  //     if (callback) {
+  //       callback(results);
+  //     }
+  //   });
+  // }
+  //
+  // private getCookies(domain, name, callback) {
+  //   chrome.cookies.get({"url": domain, "name": name}, function (cookie) {
+  //     if (callback) {
+  //       callback(cookie ? cookie.value : null);
+  //     }
+  //     if (!cookie) {
+  //       window.open('http://dev.my.wefaves.com.s3-website.eu-central-1.amazonaws.com/#/account/login');
+  //     }
+  //   });
+  // }
 
 }

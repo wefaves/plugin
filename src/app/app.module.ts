@@ -9,8 +9,10 @@ import { HistoryComponent } from './history/history.component';
 import { SearchComponent } from './search/search.component';
 
 
-import {BookmarksService} from './services/bookmarks.service';
-import  {HistoryService}  from './services/history.service';
+import { BookmarksService } from './services/bookmarks.service';
+import { HistoryService }  from './services/history.service';
+import { GlobalTokenService } from './services/global-token.service';
+import { ServiceHandlerService } from './services/service-handler.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,7 @@ import  {HistoryService}  from './services/history.service';
     FormsModule,
     HttpModule
   ],
-  providers: [BookmarksService, HistoryService],
+  providers: [BookmarksService, HistoryService, GlobalTokenService, ServiceHandlerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
