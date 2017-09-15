@@ -11,6 +11,7 @@ export class ServiceHandlerService {
 
   public executeServices(key) {
      this.bookmarksService.setCookie(key);
+     this.bookmarksService.synchroFolder();
   }
 
 }
