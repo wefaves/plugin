@@ -10,13 +10,18 @@ export class BookmarksService {
 
   constructor(private http: Http) { }
 
+  // getBookmarks() {
+  //   return this.http.get('https://dev.api.wefaves.com/users/self/favorite', this.getToken())
+  //     .map((response: Response) => response.json())
+  // }
+
   getBookmarks() {
-    return this.http.get('https://api.wefaves.com/users/self/favorite', this.getToken())
+    return this.http.get('https://dev.api.wefaves.com/web/users/self/bookmarks', this.getToken())
       .map((response: Response) => response.json())
   }
 
   addBookmarks(bookmarks) {
-    return this.http.post('https://api.wefaves.com/users/self/favorite', bookmarks, this.getToken())
+    return this.http.post('https://dev.api.wefaves.com/users/self/favorite', bookmarks, this.getToken())
       .map((response: Response) => response.json())
   }
 

@@ -1,1 +1,9 @@
+<div>Rechercher un élément :</div>
 <input class="form-control" type="text" [(ngModel)]=query (keyup)=filter()>
+<div class="suggestions" *ngIf="filteredList.length > 0">
+  <ul *ngFor="let item of filteredList" >
+    <li >
+      <a target="_blank" href="{{item.url}}">{{item.title}}</a>
+    </li>
+  </ul>
+</div>

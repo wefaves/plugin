@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { HistoryService } from "../services/history.service";
-
+import { SearchService } from "../services/search.service"
 
 @Component({
   selector: 'app-search',
@@ -11,8 +11,7 @@ export class SearchComponent implements OnInit {
 
   constructor(private http: Http, private historyService: HistoryService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   public query = '';
   public filteredList = [];
@@ -21,14 +20,11 @@ export class SearchComponent implements OnInit {
 
   filter() {
     if (this.query !== "") {
-      this.getCookies("http://dev.my.wefaves.com.s3-website.eu-central-1.amazonaws.com/", "currentUser", (key) => {
-        this.historyService.getHistory(key)
-        .subscribe(
-          history => {
-            this.filteredList = history.filter(function (el) {
-              return el.title.toLowerCase().indexOf(this.query.toLowerCase()) > -1;
-            }.bind(this));
-          });
+      this.historyService.getUserHistory().then(
+        history => {
+          this.filteredList = history.filter(function (el) {
+            return el.url.toLowerCase().indexOf(this.query.toLowerCase()) > -1;
+          }.bind(this));
         });
       } else {
         this.filteredList = [];
@@ -40,36 +36,4 @@ export class SearchComponent implements OnInit {
       this.filteredList = [];
     }
 
-    public  displaySearch(value) {
-      console.log(value);
-      let query = '';
-      let filteredList = [];
-      let elementRef = value;
-
-      let result;
-      this.http.get('./search.json')
-      .map(res => res.json())
-      .subscribe(
-        val => result = val,
-        err => console.error(err),
-        () =>  {
-          for (let i of result) {
-            if (i.title === value) {
-              this.list.push(i);
-            }
-          }
-        });
-      }
-
-      private getCookies(domain, name, callback) {
-        chrome.cookies.get({"url": domain, "name": name}, function (cookie) {
-          if (callback) {
-            callback(cookie ? cookie.value : null);
-          }
-          if (!cookie) {
-            window.open('http://dev.my.wefaves.com.s3-website.eu-central-1.amazonaws.com/#/');
-          }
-        });
-      }
-
-    }
+  }

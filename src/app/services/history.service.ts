@@ -1,25 +1,28 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import 'rxjs/add/operator/map';
-import { environment } from "../../environments/environment";
+import 'rxjs/add/operator/map'
+import {ApiService} from "./api.service";
+import {History} from "../models/history";
 
 @Injectable()
 export class HistoryService {
 
-  constructor(private http: Http) { }
+  constructor(private apiService: ApiService) {}
 
-  getHistory(key) {
-    return this.http.get('https://api.wefaves.com/users/self/history', this.getToken(key))
-      .map((response: Response) => response.json())
+  getUserHistory(): Promise<[History]> {
+    return new Promise((resolve, reject) => {
+      this.apiService.getRequest('/users/self/history')
+        .subscribe(
+          data => resolve(History.ParseFromObjectToArray(data)),
+          error => reject(<any>error));
+    });
   }
 
-  addHistory(history, key) {
-    return this.http.post('https://api.wefaves.com/users/self/history', history, this.getToken(key))
-      .map((response: Response) => response.json())
-  }
-
-  private getToken(key) {
-    let headers = new Headers({ 'Authorization': 'Bearer ' + key});
-    return new RequestOptions({ headers: headers });
+  postHistory(history: {}): Promise<[History]> {
+    return new Promise((resolve, reject) => {
+      this.apiService.postRequest('/users/self/history', history)
+        .subscribe(
+          data => resolve(History.ParseFromObjectToArray(data)),
+          error => reject(<any>error));
+    });
   }
 }
