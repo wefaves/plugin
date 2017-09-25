@@ -12,7 +12,7 @@ export class BookmarksService {
   constructor(private http: Http) { }
 
   getBookmarks() {
-    return this.http.get('https://dev.api.wefaves.com/users/self/bookmarks', this.getToken())
+    return this.http.get('https://dev.api.wefaves.com/web/users/self/bookmarks', this.getToken())
       .map((response: Response) => response.json())
   }
 
@@ -21,7 +21,7 @@ export class BookmarksService {
       .map((response: Response) => response.json())
   }
 
-  private addFolder(folders) {
+  addFolder(folders) {
     return this.http.post('https://dev.api.wefaves.com/users/self/bookmarks/folder', folders, this.getToken())
       .map((response: Response) => response.json())
   }
@@ -60,8 +60,9 @@ export class BookmarksService {
                 	dateAdded: folders[i].children[x]['dateAdded'],
                 	indexPos: folders[i].children[x]['index']
                 };
-                console.log(this.addFolder(data));
-                //console.log(this.getBookmarks());
+                //this.getBookmarks();
+                //console.log(this.addFolder(data));
+                console.log(this.getBookmarks());
                 //console.log(folders[i].children[x]['id'] + ' - ' + folders[i].children[x]['title'] + ' - ' + folders[i].children[x]['dateGroupModified'] + ' - ' + folders[i].children[x]['index'] + ' - ' + folders[i].children[x]['parentId'] + ' - ' + folders[i].children[x]['dateAdded']);
               }
         }

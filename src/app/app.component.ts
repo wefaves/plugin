@@ -12,7 +12,7 @@ import { GlobalTokenService } from  './services/global-token.service';
 
 export class AppComponent implements OnInit {
 
-  constructor(private http: Http, private globalToken: GlobalTokenService) {
+  constructor(private http: Http/*, private globalToken: GlobalTokenService*/) {
     // chrome.bookmarks.getTree(function (tree) {
     //   const bookmarks = Bookmark.ParseFromObjectToArray(tree);
     //   console.log(bookmarks);
