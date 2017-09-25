@@ -1,42 +1,46 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import 'rxjs/add/operator/map';
-import { environment } from "../../environments/environment";
+import 'rxjs/add/operator/map'
+import {ApiService} from "./api.service";
+import {Bookmark} from "../models/bookmark";
 
 @Injectable()
 export class BookmarksService {
 
-  cookie: string;
+  constructor(private apiService: ApiService) {}
 
-  constructor(private http: Http) { }
-
-  // getBookmarks() {
-  //   return this.http.get('https://dev.api.wefaves.com/users/self/favorite', this.getToken())
-  //     .map((response: Response) => response.json())
-  // }
-
-  getBookmarks() {
-    return this.http.get('https://dev.api.wefaves.com/web/users/self/bookmarks', this.getToken())
-      .map((response: Response) => response.json())
+  getUserFolders(): Promise<[Bookmark]> {
+    return new Promise((resolve, reject) => {
+      this.apiService.getRequest('/users/self/bookmarks')
+        .subscribe(
+          data => resolve(Bookmark.ParseFromObjectToArray(data)),
+          error => reject(<any>error));
+    });
   }
 
-  addBookmarks(bookmarks) {
-    return this.http.post('https://dev.api.wefaves.com/users/self/favorite', bookmarks, this.getToken())
-      .map((response: Response) => response.json())
+  getUserBookmarks(): Promise<[Bookmark]> {
+    return new Promise((resolve, reject) => {
+      this.apiService.getRequest('/users/self/bookmarks')
+        .subscribe(
+          data => resolve(data),
+          error => reject(<any>error));
+    });
   }
 
-  private getToken() {
-    let headers = new Headers({ 'Authorization': 'Bearer ' + this.cookie});
-    return new RequestOptions({ headers: headers });
+  postBookmarkFolder(bookmark: {}): Promise<[Bookmark]> {
+    return new Promise((resolve, reject) => {
+      this.apiService.postRequest('/users/self/bookmarks/folder', bookmark)
+        .subscribe(
+          data => resolve(Bookmark.ParseFromObjectToArray(data)),
+          error => reject(<any>error));
+    });
   }
 
-  public  setCookie(key) {
-    console.log(key);
-    this.cookie = key;
+  postBookmark(bookmark: {}): Promise<[Bookmark]> {
+    return new Promise((resolve, reject) => {
+      this.apiService.postRequest('/users/self/bookmarks', bookmark)
+        .subscribe(
+          data => resolve(Bookmark.ParseFromObjectToArray(data)),
+          error => reject(<any>error));
+    });
   }
-
-  public  getCookie() {
-    return this.cookie;
-  }
-
 }
