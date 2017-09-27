@@ -20,11 +20,12 @@ export class BookmarksComponent implements OnInit {
   key: string;
   localFolders: any = [];
   serverFolders: any = [];
+  bookmarks: any = [];
 
   constructor(private bookmarksService: BookmarksService, private tokenService: TokenService) { }
 
   ngOnInit() {
-    this.tokenService.getCookies("http://dev.wefaves.com/", "token", (key) => {
+    this.tokenService.getCookies("http://dev.wefaves.com", "token", (key) => {
       this.tokenService.setToken(key);
       this.getUserBookmarksFolder();
     });
@@ -32,11 +33,9 @@ export class BookmarksComponent implements OnInit {
 
   getUserBookmarksFolder() {
     chrome.bookmarks.getTree((bookmarks) => {
+      this.bookmarks = bookmarks;
       if (this.getLocalFolders(bookmarks) == 1) {
         this.getServerFolders();
-      }
-      if (this.getLocalBookmarks(bookmarks) == 1) {
-        this.getServerBookmarks();
       }
     });
   }
@@ -128,6 +127,10 @@ export class BookmarksComponent implements OnInit {
             i++;
             this.synchFolders(folders, length, i);
         });
+    } else {
+      if (this.getLocalBookmarks(this.bookmarks) == 1) {
+        this.getServerBookmarks();
+      }
     }
   }
 
