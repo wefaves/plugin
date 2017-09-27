@@ -4,6 +4,7 @@ import { History } from '../models/history';
 import { TokenService } from '../services/token.service';
 
 import { logger } from "codelyzer/util/logger";
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-history',
@@ -20,7 +21,7 @@ export class HistoryComponent implements OnInit {
   constructor(private historyService: HistoryService, private tokenService: TokenService) { }
 
   ngOnInit() {
-    this.tokenService.getCookies("http://wefaves.com/", "token", (key) => {
+    this.tokenService.getCookies(environment.web_app_endpoint, "token", (key) => {
       this.tokenService.setToken(key);
       this.getUserHistory();
     });

@@ -4,6 +4,7 @@ import { Bookmark } from '../models/bookmark';
 import { TokenService } from '../services/token.service';
 
 import { logger } from "codelyzer/util/logger";
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-bookmarks',
@@ -25,7 +26,7 @@ export class BookmarksComponent implements OnInit {
   constructor(private bookmarksService: BookmarksService, private tokenService: TokenService) { }
 
   ngOnInit() {
-    this.tokenService.getCookies("http://dev.wefaves.com", "token", (key) => {
+    this.tokenService.getCookies(environment.web_app_endpoint, "token", (key) => {
       this.tokenService.setToken(key);
       this.getUserBookmarksFolder();
     });

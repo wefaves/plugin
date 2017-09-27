@@ -21,6 +21,14 @@ export class AppComponent implements OnInit {
     });
   }
 
+  syncBookmarks() {
+
+  }
+
+  syncHistory() {
+
+  }
+
   public open() {
     window.open(environment.web_app_endpoint);
   }
