@@ -24,7 +24,7 @@ export class BookmarksComponent implements OnInit {
   constructor(private bookmarksService: BookmarksService, private tokenService: TokenService) { }
 
   ngOnInit() {
-    this.tokenService.getCookies("http://wefaves.com/", "token", (key) => {
+    this.tokenService.getCookies("http://dev.wefaves.com/", "token", (key) => {
       this.tokenService.setToken(key);
       this.getUserBookmarksFolder();
     });
