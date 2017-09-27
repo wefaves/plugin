@@ -27,7 +27,7 @@ export class HistoryComponent implements OnInit {
   }
 
   getUserHistory() {
-    let query = { text: '', maxResults: 100 };
+    let query = { text: '', maxResults: 5000 };
     this.historyService.getUserHistory().then(
       (history) => {
         this.history = history;
