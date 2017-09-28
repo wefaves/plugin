@@ -70,8 +70,6 @@ export class BookmarksComponent implements OnInit {
       (folders) => {
         this.setServerFolders(folders);
         this.foldersDifference = [];
-        console.log(this.localFolders);
-        console.log(this.serverFolders);
         for (let i of this.localFolders) {
           let value = 0;
           for (let j of this.serverFolders) {
@@ -85,8 +83,7 @@ export class BookmarksComponent implements OnInit {
           }
         }
         this.foldersDifference = this.foldersDifference.sort(this.compare);
-        console.log(this.foldersDifference);
-        //this.synchFolders(this.foldersDifference, this.foldersDifference.length, 0);
+        this.synchFolders(this.foldersDifference, this.foldersDifference.length, 0);
       }
     ).catch(
       (err) => { }
