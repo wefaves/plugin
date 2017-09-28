@@ -25,6 +25,14 @@ export class SearchComponent implements OnInit {
           this.filteredList = history.filter(function (el) {
             return el.url.toLowerCase().indexOf(this.query.toLowerCase()) > -1;
           }.bind(this));
+          if (this.filteredList.length > 8) {
+            this.filteredList = this.filteredList.slice(0, 8);
+          }
+          for (let data of this.filteredList) {
+            if (data._title.length > 25) {
+              data._title = data._title.slice(0, 25) + "...";
+            }
+          }
         });
       } else {
         this.filteredList = [];

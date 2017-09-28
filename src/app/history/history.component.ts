@@ -66,7 +66,7 @@ export class HistoryComponent implements OnInit {
       for (let i of currentHistory) {
         let value = 0;
         for (let j of history) {
-          if (i.title == j.title) {
+          if (i.url == j.url) {
             value = 1;
           }
         }
