@@ -70,10 +70,12 @@ export class BookmarksComponent implements OnInit {
       (folders) => {
         this.setServerFolders(folders);
         this.foldersDifference = [];
+        console.log(this.localFolders);
+        console.log(this.serverFolders);
         for (let i of this.localFolders) {
           let value = 0;
           for (let j of this.serverFolders) {
-            if (i.title == j.title && i.parentId == j.parentId) {
+            if (+i.indexPos == +j.indexPos && +i.parentId == +j.parentId) {
               value = 1;
             }
           }
@@ -83,7 +85,8 @@ export class BookmarksComponent implements OnInit {
           }
         }
         this.foldersDifference = this.foldersDifference.sort(this.compare);
-        this.synchFolders(this.foldersDifference, this.foldersDifference.length, 0);
+        console.log(this.foldersDifference);
+        //this.synchFolders(this.foldersDifference, this.foldersDifference.length, 0);
       }
     ).catch(
       (err) => { }
@@ -167,7 +170,7 @@ export class BookmarksComponent implements OnInit {
         for (let i of this.localBookmarks) {
           let value = 0;
           for (let j of this.serverBookmarks) {
-            if (i.title == j.title && i.parentId == j.parentId) {
+            if (+i.indexPos == +j.indexPos && +i.parentId == +j.parentId) {
               value = 1;
             }
           }
