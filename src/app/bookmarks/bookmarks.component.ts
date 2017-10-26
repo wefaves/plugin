@@ -18,6 +18,7 @@ export class BookmarksComponent implements OnInit {
   serverBookmarks: any = [];
   foldersDifference: any = [];
   bookmarksDifference: any = [];
+  bookmarkstosetinlocal: any = [];
   key: string;
   localFolders: any = [];
   serverFolders: any = [];
@@ -131,6 +132,7 @@ export class BookmarksComponent implements OnInit {
     } else {
       if (this.getLocalBookmarks(this.bookmarks) == 1) {
         this.getServerBookmarks();
+        this.setLocalBookmarks();
       }
     }
   }
@@ -178,6 +180,41 @@ export class BookmarksComponent implements OnInit {
         }
         this.bookmarksDifference = this.bookmarksDifference.sort(this.compare);
         this.synchBookmarks(this.bookmarksDifference, this.bookmarksDifference.length, 0);
+      }
+    ).catch(
+      (err) => { }
+    );
+  }
+
+  private setLocalBookmarks() {
+    this.bookmarksService.getUserBookmarks().then(
+      (bookmarks) => {
+        //this.setServerBookmarks(bookmarks);
+        this.bookmarkstosetinlocal = [];
+        for (let i of this.serverBookmarks) {
+          let value = 0;
+          for (let j of this.localBookmarks) {
+            if (+i.indexPos == +j.indexPos && +i.parentId == +j.parentId) {
+              value = 1;
+            }
+          }
+          if (value == 0) {
+            this.bookmarkstosetinlocal.push(i);
+            value = 0;
+          }
+        }
+        this.bookmarkstosetinlocal = this.bookmarkstosetinlocal.sort(this.compare);
+        let data = {};
+        for (let i = 0; i < this.bookmarkstosetinlocal.length; i++) {
+          let tmp = this.bookmarkstosetinlocal[i];
+          data = {
+                title: tmp.title,
+                url: tmp.url,
+                parentId: tmp.parentId,
+                index:tmp.indexPos
+              };
+            chrome.bookmarks.create(data);
+        }
       }
     ).catch(
       (err) => { }
