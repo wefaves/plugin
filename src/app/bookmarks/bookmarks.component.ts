@@ -19,6 +19,7 @@ export class BookmarksComponent implements OnInit {
   foldersDifference: any = [];
   bookmarksDifference: any = [];
   bookmarkstosetinlocal: any = [];
+  folderstosetinlocal: any = [];
   key: string;
   localFolders: any = [];
   serverFolders: any = [];
@@ -132,7 +133,11 @@ export class BookmarksComponent implements OnInit {
     } else {
       if (this.getLocalBookmarks(this.bookmarks) == 1) {
         this.getServerBookmarks();
-        this.setLocalBookmarks();
+        // if (this.setLocalFolders() == 1) {
+        //     this.setLocalBookmarks();
+        // }
+        //this.setLocalFolders();
+        this.setLocalBookmarkstmp();
       }
     }
   }
@@ -186,7 +191,7 @@ export class BookmarksComponent implements OnInit {
     );
   }
 
-  private setLocalBookmarks() {
+  private setLocalBookmarkstmp() {
     this.bookmarksService.getUserBookmarks().then(
       (bookmarks) => {
         //this.setServerBookmarks(bookmarks);
@@ -214,11 +219,92 @@ export class BookmarksComponent implements OnInit {
                 index:tmp.indexPos
               };
             chrome.bookmarks.create(data);
+            //chrome.bookmarks.move(id, {index: tmp.indexPos, parentId: tmp.parentId++});
         }
       }
     ).catch(
       (err) => { }
     );
+  }
+
+  private setLocalBookmarks(newId) {
+    this.bookmarksService.getUserBookmarks().then(
+      (bookmarks) => {
+        //this.setServerBookmarks(bookmarks);
+        this.bookmarkstosetinlocal = [];
+        for (let i of this.serverBookmarks) {
+          let value = 0;
+          for (let j of this.localBookmarks) {
+            if (+i.indexPos == +j.indexPos && +i.parentId == +j.parentId) {
+              value = 1;
+            }
+          }
+          if (value == 0) {
+            this.bookmarkstosetinlocal.push(i);
+            value = 0;
+          }
+        }
+        this.bookmarkstosetinlocal = this.bookmarkstosetinlocal.sort(this.compare);
+        let data = {};
+        for (let i = 0; i < this.bookmarkstosetinlocal.length; i++) {
+          let tmp = this.bookmarkstosetinlocal[i];
+          data = {
+                title: tmp.title,
+                url: tmp.url,
+                parentId: "1",//(+tmp.parentId + 1),
+                index:tmp.indexPos
+              };
+            chrome.bookmarks.create(data, function(newBookmark) {
+              chrome.bookmarks.move(newBookmark.id, {index: tmp.indexPos, parentId: newId});
+            });
+            //chrome.bookmarks.move(id, {index: tmp.indexPos, parentId: tmp.parentId++});
+        }
+      }
+    ).catch(
+      (err) => { }
+    );
+  }
+
+  private setLocalFolders() {
+    // this.bookmarksService.getUserFolders().then(
+    //   (folders) => {
+        //this.setServerFolders(folders);
+        this.folderstosetinlocal = [];
+        for (let i of this.serverFolders) {
+          let value = 0;
+          for (let j of this.localFolders) {
+            if (+i.indexPos == +j.indexPos && +i.parentId == +j.parentId) {
+              value = 1;
+            }
+          }
+          if (value == 0) {
+            this.folderstosetinlocal.push(i);
+            value = 0;
+          }
+        }
+        this.folderstosetinlocal = this.folderstosetinlocal.sort(this.compare);
+        let data = {};
+        if (this.folderstosetinlocal.length > 0) {
+          for (let i = 0; i < this.folderstosetinlocal.length; i++) {
+            let tmp = this.folderstosetinlocal[i];
+            data = {
+                  title: tmp.title,
+                  parentId: tmp.parentId,
+                  index:tmp.indexPos
+                };
+              chrome.bookmarks.create(data, (newFolder) => {
+                  this.setLocalBookmarks(newFolder.id);
+              });
+          }
+        } else {
+          console.log('ya pas');
+        }
+
+        //this.setLocalBookmarks();
+    //   }
+    // ).catch(
+    //   (err) => { }
+    // );
   }
 
   private setServerBookmarks(bookmarks) {

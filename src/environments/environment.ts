@@ -6,5 +6,5 @@
 export const environment = {
   production: false,
   api_url: 'https://dev.api.wefaves.com',
-  web_app_endpoint: 'http://dev.wefaves.com'
+  web_app_endpoint: 'https://www.wefaves.com/'
 };
