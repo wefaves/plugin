@@ -43,4 +43,13 @@ export class BookmarksService {
           error => reject(<any>error));
     });
   }
+
+  updateBookmark(bookmark: {}, id): Promise<[Bookmark]> {
+    return new Promise((resolve, reject) => {
+      this.apiService.postRequest('/users/self/bookmarks/'+id, bookmark)
+        .subscribe(
+          data => resolve(Bookmark.ParseFromObjectToArray(data)),
+          error => reject(<any>error));
+    });
+  }
 }

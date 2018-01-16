@@ -136,8 +136,8 @@ export class BookmarksComponent implements OnInit {
         // if (this.setLocalFolders() == 1) {
         //     this.setLocalBookmarks();
         // }
-        //this.setLocalFolders();
-        this.setLocalBookmarkstmp();
+        this.setLocalFolders();
+        //this.setLocalBookmarkstmp();
       }
     }
   }
@@ -257,6 +257,14 @@ export class BookmarksComponent implements OnInit {
             chrome.bookmarks.create(data, function(newBookmark) {
               chrome.bookmarks.move(newBookmark.id, {index: tmp.indexPos, parentId: newId});
             });
+            // let toUpdate = {};
+            // toUpdate = {
+            //       title: tmp.title,
+            //       url: tmp.url,
+            //       parent_id: newId,//(+tmp.parentId + 1),
+            //       index_pos:tmp.indexPos
+            //     };
+            // this.bookmarksService.updateBookmark(toUpdate, tmp.itemId).then();
             //chrome.bookmarks.move(id, {index: tmp.indexPos, parentId: tmp.parentId++});
         }
       }
@@ -273,7 +281,7 @@ export class BookmarksComponent implements OnInit {
         for (let i of this.serverFolders) {
           let value = 0;
           for (let j of this.localFolders) {
-            if (+i.indexPos == +j.indexPos && +i.parentId == +j.parentId) {
+            if (i.title == j.title && +i.parentId == +j.parentId) {
               value = 1;
             }
           }
@@ -297,7 +305,7 @@ export class BookmarksComponent implements OnInit {
               });
           }
         } else {
-          console.log('ya pas');
+          this.setLocalBookmarkstmp();
         }
 
         //this.setLocalBookmarks();

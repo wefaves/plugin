@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
       this.tokenService.setToken(key);
 
       if (!this.tokenService.token) {
-        window.open(environment.web_app_endpoint+'/#/account/login');
+        window.open(environment.web_app_endpoint+'#/account/login');
       }
     });
   }
@@ -34,6 +34,6 @@ export class AppComponent implements OnInit {
   }
 
   public settings() {
-    window.open(environment.web_app_endpoint+'/#/account/profile');
+    window.open(environment.web_app_endpoint+'#/account/profile');
   }
 }
